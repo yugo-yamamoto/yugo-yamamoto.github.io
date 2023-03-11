@@ -1,0 +1,31 @@
+<html>
+<div>
+<textarea id="main" cols="80" rows="10"></textarea>
+</div>
+<div>
+    <input type="text" id="result">
+</div>
+<script>
+function $(selector) { return document.querySelector(selector); };
+function $$(selector) { return document.querySelectorAll(selector); };
+document.addEventListener('DOMContentLoaded', () => {
+    $('#main').focus();
+    $('#main').addEventListener('change',(e) => {
+        $('#result').value  =  calc(e.target.value);
+    });
+}, false);
+// 全部の合計を出す
+function calc(lines){
+    lines = lines.replaceAll(',',''); // カンマを削除
+    lines = lines.replace(/[^0-9\.\-]/gi, ' '); //数字とピリオドとマイナス以外をスペースに
+    lines = lines.trim(); //前後のスペースを削除
+    let prices =  lines.split(/\s+/); //スペースで分割
+    console.log(prices);
+    // 全部を合計
+    let results = prices.reduce((sum, item) => {
+        return sum + Number(item);
+    }, 0);
+    return results.toLocaleString(); //カンマ区切りで出力
+}
+</script>
+</html>
