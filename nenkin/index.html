@@ -3,9 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>厚生年金検索POST</title>
+<script>
+function $(selector) { return document.querySelector(selector); };
+function $$(selector) { return document.querySelectorAll(selector); };
+document.addEventListener('DOMContentLoaded', () => {
+    let params = (new URL(document.location)).searchParams;
+    console.log(params);
+    let hojimNo = params.get('s');
+    if(hojimNo == null){ return; }
+
+    document.frm.txtHoujinNo.value = hojimNo;
+    document.frm.txtHoujinNo.focus();
+}, false);
+</script>
 </head>
 <body>
-<form method="POST" action="https://www2.nenkin.go.jp/do/search_section">
+<form method="POST" action="https://www2.nenkin.go.jp/do/search_section" name="frm">
 <input type="hidden" name="hdnSearchOffice" value="3">
 <input type="hidden" name="hdnSearchCriteria" value="3">
 <input type="hidden" name="gmnId" value="GB10001SC010">
@@ -14,7 +27,7 @@
 <input type="hidden" name="eventId" value="/SEARCH.HTML">
 <input type="hidden" name="/search.html" value="">
 <input type="text" name="txtHoujinNo" placeholder="法人番号">
-<input type="submit" name="submit">
+<input type="submit" name="soshin">
 </form>
 </body>
 </html>
