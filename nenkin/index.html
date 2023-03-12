@@ -4,14 +4,9 @@
 <meta charset="UTF-8">
 <title>厚生年金検索POST</title>
 <script>
-function $(selector) { return document.querySelector(selector); };
-function $$(selector) { return document.querySelectorAll(selector); };
 document.addEventListener('DOMContentLoaded', () => {
     let params = (new URL(document.location)).searchParams;
-    console.log(params);
     let hojimNo = params.get('s');
-    if(hojimNo == null){ return; }
-
     document.frm.txtHoujinNo.value = hojimNo;
     document.frm.txtHoujinNo.focus();
 }, false);
