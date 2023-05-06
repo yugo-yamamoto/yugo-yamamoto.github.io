@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>clipboard-to-html: Convert html to html text</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 85%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        #input,
+        #output,
+        #markdown{
+            border: 1px solid #CCC;
+            padding: 10px;
+            outline: none;
+            font: 16px/1.5em Consolas, Menlo, Monaco, 'Courier New', monospace;
+            white-space: pre;
+            tab-size: 4;
+            overflow-y: auto;
+        }
+
+        #input {
+            width: 100%;
+            margin-bottom: 50px;
+            overflow-y: auto;
+            resize: vertical;
+        }
+        [contenteditable=true]:empty:before{
+            content: attr(placeholder);
+            pointer-events: none;
+            display: block; /* For Firefox */
+        }        
+        div[contenteditable=true] {
+            border: 1px dashed #AAA;
+            width: 290px;
+            padding: 15px;
+        }
+    </style>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('input').addEventListener('input',(event) => {
+                const html = event.target.innerHTML; 
+                document.getElementById('output').innerText = html;
+                const turndownService = new TurndownService();
+                const markdown = turndownService.turndown(html);
+                document.getElementById('markdown').innerText = markdown;
+            });
+        });
+    </script>
+  </head>
+  <body>
+      <h1>clipboard-to-html</h1>
+      <p>
+        ブラウザ上でコピーした状態でペーストしてね
+      </p>
+      <div id="input" placeholder="Paste here" contenteditable="true"></div>
+      <p>HTML</p>
+      <div id="output"></div>
+      <p>MarkDown</p>
+      <div id="markdown"></div>
+    <footer>
+        <p>powerd by https://github.com/mixmark-io/turndown</p>
+        <p>
+        © yugo yamamoto
+      </p>
+    </footer>
+  </body>
+</html>
