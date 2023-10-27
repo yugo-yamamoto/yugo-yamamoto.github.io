@@ -1,0 +1,60 @@
+<html>
+<div>
+<textarea id="main" cols="80" rows="10"></textarea>
+</div>
+<div>
+    <input type="text" id="result">
+</div>
+<script>
+function $(selector) { return document.querySelector(selector); };
+function $$(selector) { return document.querySelectorAll(selector); };
+document.addEventListener('DOMContentLoaded', () => {
+    $('#main').focus();
+    $('#main').addEventListener('change',(e) => {
+        $('#result').value  =  calc(e.target.value);
+    });
+}, false);
+String.prototype.tr = function(from, to) {
+  let trMap = {};
+  from.split('').forEach((f, i) => {
+    trMap[f] = to[i] || to[to.length-1];
+  });
+  return this.replace(/./g, ch => trMap[ch] || ch);
+};
+function tokenize(lines){
+    lines = lines.replaceAll(',',''); // カンマを削除
+    lines = lines.tr('×ｘ＊／ー','xxx/-'); // 全角を半角に
+    lines = lines.replace(/[^0-9\.\-x\/]/gi, ' '); //数字とピリオドとマイナス以外をスペースに
+    lines = lines.replace(/x/gi, ' x ');  // 剰余演算子の前後にスペースを
+    lines = lines.replace(/\//gi, ' / '); // 剰余演算子の前後にスペースを
+    lines = lines.trim(); //前後のスペースを削除
+    return lines.split(/\s+/); //スペースで分割
+}
+// 全部の合計を出す
+function calc(lines){
+    let prices =  tokenize(lines);
+    console.log(prices);
+    // 全部を集計
+    let operator = '';
+    let results = prices.reduce((sum, item) => {
+        if('x/-'.indexOf(item)>=0){
+            operator = item;
+            return sum;
+        }
+        switch (operator){
+            case 'x':
+                console.log(sum + 'times' + item);
+                return sum * Number(item);
+            case '/':
+                return sum / Number(item);
+            case '-':
+                return sum - Number(item);
+            default:
+                return sum + Number(item);    
+        }
+        operator = '';
+    }, 0);
+    return results.toLocaleString(); //カンマ区切りで出力
+}
+</script>
+</html>
